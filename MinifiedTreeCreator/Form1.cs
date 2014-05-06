@@ -471,10 +471,12 @@ namespace MinifiedTreeCreator
                 GraphPoint minPoint = null;
                 double minDistance = double.MaxValue;
 
-                //iterate through the points to create segments
+                //iterate through all the points to create the segments
                 points.Where(x => !x.Equals(p)).ToList().ForEach(delegate(GraphPoint p1)
                 {
                     Segment s = new Segment(p, p1);
+
+                    //this is the smallest distance we've found so far
                     if (s.Distance < minDistance)
                     {
                         minPoint = p1;
@@ -482,6 +484,7 @@ namespace MinifiedTreeCreator
                         minSegment = s;
                     }
 
+                    //make sure we have the right reference to the segment in the list
                     if (!segments.Contains(minSegment)) segments.Add(minSegment);
                     else minSegment = segments.Single(x => x.Equals(minSegment));
                 });
