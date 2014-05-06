@@ -461,6 +461,7 @@ namespace MinifiedTreeCreator
             foreach (GraphPoint p in points) p.Segments.Clear();
             segments.Clear();
 
+            //this will be the final number of segments (n-1)
             int totalFinalSegments = points.Count - 1;
             int finalSegments = 0;
 
@@ -506,7 +507,7 @@ namespace MinifiedTreeCreator
                 //keep looping until we've gotten all the segments we expect to get
                 while (finalSegments < totalFinalSegments)
                 {
-                    //only get those that aren't connected
+                    //only get those that aren't connected, or we already know would create a cycle
                     foreach (Segment s in segments.Where(x => !x.IsFinal && !x.IsRedundant))
                     {
                         //we have the right number so stop looping
@@ -519,7 +520,7 @@ namespace MinifiedTreeCreator
                             s.MakeFinal();
                             finalSegments++;
                         }
-                        else //these points are connected by other final segments so don't check them anymore
+                        else //these points are connected by other final segments and would create a cycle, so don't check them anymore
                             s.MakeRedundant();
                     }
                 }
